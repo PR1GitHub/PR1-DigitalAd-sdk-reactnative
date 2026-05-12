@@ -1,0 +1,51 @@
+{
+  "name": "@purered/pr1digitalad-react-native",
+  "version": "0.2.1",
+  "description": "React Native SDK that wraps an existing web experience inside a WebView.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "react-native": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run build",
+    "lint": "echo \"Add a linter if needed\""
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "android-webview-debug.js",
+    "LICENSE"
+  ],
+  "keywords": [
+    "react-native",
+    "webview",
+    "sdk",
+    "pr1digitalad",
+    "bridge"
+  ],
+  "author": "PureRed",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/purered/pr1digitalad-react-native.git"
+  },
+  "bugs": {
+    "url": "https://github.com/purered/pr1digitalad-react-native/issues"
+  },
+  "homepage": "https://github.com/purered/pr1digitalad-react-native#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-native": ">=0.72",
+    "react-native-webview": ">=13"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.37",
+    "@types/react-native": "^0.72.5",
+    "react-native-webview": "^13.6.3",
+    "typescript": "^5.2.2"
+  }
+}
