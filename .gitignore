@@ -1,0 +1,8 @@
+node_modules
+.DS_STORE
+.vscode
+build
+.npmrc
+.env
+
+*storybook.log
