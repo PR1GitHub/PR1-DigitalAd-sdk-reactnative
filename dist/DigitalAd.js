@@ -6,7 +6,7 @@ const react_1 = require("react");
 const react_native_1 = require("react-native");
 const react_native_webview_1 = require("react-native-webview");
 const DEFAULT_ENV = "PROD";
-exports.DigitalAd = (0, react_1.forwardRef)(({ options, callbackHandler, style }, ref) => {
+exports.DigitalAd = (0, react_1.forwardRef)(({ options, callbackHandler, style, onShouldStartLoadWithRequest }, ref) => {
     const webRef = (0, react_1.useRef)(null);
     // Build URL: https://{domain}/pr1da/native/index.html?env=aos
     const url = (0, react_1.useMemo)(() => {
@@ -98,7 +98,7 @@ exports.DigitalAd = (0, react_1.forwardRef)(({ options, callbackHandler, style }
     }));
     return ((0, jsx_runtime_1.jsx)(react_native_1.View, { style: [styles.container, style], children: (0, jsx_runtime_1.jsx)(react_native_webview_1.WebView, { ref: webRef, source: { uri: url }, javaScriptEnabled: true, domStorageEnabled: true, onMessage: handleMessage, injectedJavaScript: injectedJavaScript, startInLoadingState: true, renderLoading: () => ((0, jsx_runtime_1.jsx)(react_native_1.View, { style: styles.loader, children: (0, jsx_runtime_1.jsx)(react_native_1.ActivityIndicator, {}) })), 
             // You can tighten these based on your needs
-            originWhitelist: ["*"], mixedContentMode: "never" }) }));
+            originWhitelist: ["*"], mixedContentMode: "never", onShouldStartLoadWithRequest: onShouldStartLoadWithRequest }) }));
 });
 const styles = react_native_1.StyleSheet.create({
     container: {

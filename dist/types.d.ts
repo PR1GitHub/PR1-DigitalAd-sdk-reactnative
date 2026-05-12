@@ -20,6 +20,7 @@ export type DigitalAdProps = {
     options: DigitalAdInput;
     callbackHandler: (payload: ActionPayload) => void;
     style?: any;
+    onShouldStartLoadWithRequest?: (event: any) => boolean;
 };
 export type DigitalAdHandle = {
     dispatch: (payload: ActionPayload) => void;

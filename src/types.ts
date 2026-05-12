@@ -27,6 +27,9 @@ export type DigitalAdProps = {
 
   // Optional styling if needed
   style?: any;
+
+  // Optional WebView navigation interceptor
+  onShouldStartLoadWithRequest?: (event: any) => boolean;
 };
 
 // Handle exposed via ref (to mirror dispatch in Kotlin)

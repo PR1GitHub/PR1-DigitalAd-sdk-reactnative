@@ -11,7 +11,7 @@ import type { DigitalAdProps, DigitalAdHandle, ActionPayload } from "./types";
 const DEFAULT_ENV = "PROD";
 
 export const DigitalAd = forwardRef<DigitalAdHandle, DigitalAdProps>(
-  ({ options, callbackHandler, style }, ref) => {
+  ({ options, callbackHandler, style, onShouldStartLoadWithRequest }, ref) => {
     const webRef = useRef<WebView>(null);
 
     // Build URL: https://{domain}/pr1da/native/index.html?env=aos
@@ -125,6 +125,7 @@ export const DigitalAd = forwardRef<DigitalAdHandle, DigitalAdProps>(
           // You can tighten these based on your needs
           originWhitelist={["*"]}
           mixedContentMode="never"
+          onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
         />
       </View>
     );
