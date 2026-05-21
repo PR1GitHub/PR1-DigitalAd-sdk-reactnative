@@ -1,9 +1,4 @@
-import React, {
-  forwardRef,
-  useImperativeHandle,
-  useMemo,
-  useRef,
-} from "react";
+import React, { forwardRef, useImperativeHandle, useMemo, useRef } from "react";
 import { View, ActivityIndicator, StyleSheet } from "react-native";
 import { WebView, WebViewMessageEvent } from "react-native-webview";
 import type { DigitalAdProps, DigitalAdHandle, ActionPayload } from "./types";
@@ -17,8 +12,9 @@ export const DigitalAd = forwardRef<DigitalAdHandle, DigitalAdProps>(
     // Build URL: https://{domain}/pr1da/native/index.html?env=aos
     const url = useMemo(() => {
       const domain = options.domain.replace(/^https?:\/\//, "");
-      return `https://${domain}/pr1da/native/index.html?env=aos`;
-    }, [options.domain]);
+      const params = options.queryParams ? `&${options.queryParams}` : "";
+      return `https://${domain}/pr1da/native/index.html?env=aos${params}`;
+    }, [options.domain, options.queryParams]);
 
     // Prepare config to send into initDigitalAd(...) on the web page
     const optionsForWeb = useMemo(() => {
@@ -108,7 +104,6 @@ export const DigitalAd = forwardRef<DigitalAdHandle, DigitalAdProps>(
 
     return (
       <View style={[styles.container, style]}>
-
         <WebView
           ref={webRef}
           source={{ uri: url }}
@@ -129,7 +124,7 @@ export const DigitalAd = forwardRef<DigitalAdHandle, DigitalAdProps>(
         />
       </View>
     );
-  }
+  },
 );
 
 const styles = StyleSheet.create({

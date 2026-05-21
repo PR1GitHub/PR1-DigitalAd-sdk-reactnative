@@ -11,8 +11,10 @@ exports.DigitalAd = (0, react_1.forwardRef)(({ options, callbackHandler, style, 
     // Build URL: https://{domain}/pr1da/native/index.html?env=aos
     const url = (0, react_1.useMemo)(() => {
         const domain = options.domain.replace(/^https?:\/\//, "");
-        return `https://${domain}/pr1da/native/index.html?env=aos`;
-    }, [options.domain]);
+        const params = options.queryParams ? `&${options.queryParams}` : "";
+        console.log("Constructed DigitalAd URL:", `https://${domain}/pr1da/native/index.html?env=aos${params}`);
+        return `https://${domain}/pr1da/native/index.html?env=aos${params}`;
+    }, [options.domain, options.queryParams]);
     // Prepare config to send into initDigitalAd(...) on the web page
     const optionsForWeb = (0, react_1.useMemo)(() => {
         var _a;

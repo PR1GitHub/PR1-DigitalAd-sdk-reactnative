@@ -1,6 +1,6 @@
 {
   "name": "@purered/pr1digitalad-react-native",
-  "version": "0.2.1",
+  "version": "0.2.5",
   "description": "React Native SDK that wraps an existing web experience inside a WebView.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
