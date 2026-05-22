@@ -11,8 +11,19 @@ exports.DigitalAd = (0, react_1.forwardRef)(({ options, callbackHandler, style, 
     // Build URL: https://{domain}/pr1da/native/index.html?env=aos
     const url = (0, react_1.useMemo)(() => {
         const domain = options.domain.replace(/^https?:\/\//, "");
-        const params = options.queryParams ? `&${options.queryParams}` : "";
-        console.log("Constructed DigitalAd URL:", `https://${domain}/pr1da/native/index.html?env=aos${params}`);
+        let params = options.queryParams ? `${options.queryParams}` : "";
+        if (params) {
+            if (params.startsWith("?")) {
+                params = "&" + params.slice(1);
+            }
+            else if (!params.startsWith("&")) {
+                params = "&" + params;
+            }
+        }
+        // console.log(
+        //   "Constructed DigitalAd URL:",
+        //   `https://${domain}/pr1da/native/index.html?env=aos${params}`,
+        // );
         return `https://${domain}/pr1da/native/index.html?env=aos${params}`;
     }, [options.domain, options.queryParams]);
     // Prepare config to send into initDigitalAd(...) on the web page

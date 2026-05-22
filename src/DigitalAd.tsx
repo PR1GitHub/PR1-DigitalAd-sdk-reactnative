@@ -12,7 +12,18 @@ export const DigitalAd = forwardRef<DigitalAdHandle, DigitalAdProps>(
     // Build URL: https://{domain}/pr1da/native/index.html?env=aos
     const url = useMemo(() => {
       const domain = options.domain.replace(/^https?:\/\//, "");
-      const params = options.queryParams ? `&${options.queryParams}` : "";
+      let params = options.queryParams ? `${options.queryParams}` : "";
+      if (params) {
+        if (params.startsWith("?")) {
+          params = "&" + params.slice(1);
+        } else if (!params.startsWith("&")) {
+          params = "&" + params;
+        }
+      }
+      // console.log(
+      //   "Constructed DigitalAd URL:",
+      //   `https://${domain}/pr1da/native/index.html?env=aos${params}`,
+      // );
       return `https://${domain}/pr1da/native/index.html?env=aos${params}`;
     }, [options.domain, options.queryParams]);
 
