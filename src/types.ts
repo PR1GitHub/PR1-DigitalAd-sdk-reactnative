@@ -11,7 +11,7 @@ export type ActionPayload = {
 // Matches Kotlin DigitalAdInput (except callbackHandler function)
 export type DigitalAdInput = {
   domain: string;
-  deepLinkQuery: string;
+  deepLinkQuery?: string;
   apiKey: string;
   storeKey: string;
   viewMode?: string;
