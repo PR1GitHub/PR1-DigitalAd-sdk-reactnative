@@ -12,20 +12,20 @@ export const DigitalAd = forwardRef<DigitalAdHandle, DigitalAdProps>(
     // Build URL: https://{domain}/pr1da/native/index.html?env=aos
     const url = useMemo(() => {
       const domain = options.domain.replace(/^https?:\/\//, "");
-      let params = options.queryParams ? `${options.queryParams}` : "";
-      if (params) {
-        if (params.startsWith("?")) {
-          params = "&" + params.slice(1);
-        } else if (!params.startsWith("&")) {
-          params = "&" + params;
+      let query = options.deepLinkQuery ? `${options.deepLinkQuery}` : "";
+      if (query) {
+        if (query.startsWith("?")) {
+          query = "&" + query.slice(1);
+        } else if (!query.startsWith("&")) {
+          query = "&" + query;
         }
       }
       // console.log(
       //   "Constructed DigitalAd URL:",
-      //   `https://${domain}/pr1da/native/index.html?env=aos${params}`,
+      //   `https://${domain}/pr1da/native/index.html?env=aos${query}`,
       // );
-      return `https://${domain}/pr1da/native/index.html?env=aos${params}`;
-    }, [options.domain, options.queryParams]);
+      return `https://${domain}/pr1da/native/index.html?env=aos${query}`;
+    }, [options.domain, options.deepLinkQuery]);
 
     // Prepare config to send into initDigitalAd(...) on the web page
     const optionsForWeb = useMemo(() => {

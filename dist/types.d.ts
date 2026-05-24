@@ -8,7 +8,7 @@ export type ActionPayload = {
 };
 export type DigitalAdInput = {
     domain: string;
-    queryParams: string;
+    deepLinkQuery: string;
     apiKey: string;
     storeKey: string;
     viewMode?: string;
