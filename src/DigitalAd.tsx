@@ -131,6 +131,11 @@ export const DigitalAd = forwardRef<DigitalAdHandle, DigitalAdProps>(
           // You can tighten these based on your needs
           originWhitelist={["*"]}
           mixedContentMode="never"
+          allowsInlineMediaPlayback
+          mediaPlaybackRequiresUserAction={false}
+          allowsFullscreenVideo={false}
+          allowsPictureInPictureMediaPlayback={false}
+          allowsAirPlayForMediaPlayback={false}
           onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
         />
       </View>

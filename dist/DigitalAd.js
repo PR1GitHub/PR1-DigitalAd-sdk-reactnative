@@ -111,7 +111,7 @@ exports.DigitalAd = (0, react_1.forwardRef)(({ options, callbackHandler, style, 
     }));
     return ((0, jsx_runtime_1.jsx)(react_native_1.View, { style: [styles.container, style], children: (0, jsx_runtime_1.jsx)(react_native_webview_1.WebView, { ref: webRef, source: { uri: url }, javaScriptEnabled: true, domStorageEnabled: true, onMessage: handleMessage, injectedJavaScript: injectedJavaScript, startInLoadingState: true, renderLoading: () => ((0, jsx_runtime_1.jsx)(react_native_1.View, { style: styles.loader, children: (0, jsx_runtime_1.jsx)(react_native_1.ActivityIndicator, {}) })), 
             // You can tighten these based on your needs
-            originWhitelist: ["*"], mixedContentMode: "never", onShouldStartLoadWithRequest: onShouldStartLoadWithRequest }) }));
+            originWhitelist: ["*"], mixedContentMode: "never", allowsInlineMediaPlayback: true, mediaPlaybackRequiresUserAction: false, allowsFullscreenVideo: false, allowsPictureInPictureMediaPlayback: false, allowsAirPlayForMediaPlayback: false, onShouldStartLoadWithRequest: onShouldStartLoadWithRequest }) }));
 });
 const styles = react_native_1.StyleSheet.create({
     container: {
