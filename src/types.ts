@@ -29,6 +29,9 @@ export type DigitalAdProps = {
   // Optional styling if needed
   style?: any;
 
+  // Enable WebView zoom and allow the page viewport to scale
+  zoomEnabled?: boolean;
+
   // Optional WebView navigation interceptor
   onShouldStartLoadWithRequest?: (event: any) => boolean;
 };

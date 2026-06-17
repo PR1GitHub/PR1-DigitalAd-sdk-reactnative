@@ -27,6 +27,7 @@ export const Example = () => (
     callbackHandler={(payload) => {
       console.log('SDK event:', payload);
     }}
+    zoomEnabled
   />
 );
 ```
@@ -44,6 +45,7 @@ export const Example = () => (
   - `payloadJsonString` (string, optional): Additional payload data
 - `callbackHandler` (function, required): Callback function that receives events from the web experience
 - `style` (object, optional): Custom styling for the component container
+- `zoomEnabled` (boolean, optional): Enables WebView zooming and injects a scalable viewport for pinch zoom. Defaults to `true`.
 
 ### Building
 

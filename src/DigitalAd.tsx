@@ -6,7 +6,16 @@ import type { DigitalAdProps, DigitalAdHandle, ActionPayload } from "./types";
 const DEFAULT_ENV = "PROD";
 
 export const DigitalAd = forwardRef<DigitalAdHandle, DigitalAdProps>(
-  ({ options, callbackHandler, style, onShouldStartLoadWithRequest }, ref) => {
+  (
+    {
+      options,
+      callbackHandler,
+      style,
+      zoomEnabled = true,
+      onShouldStartLoadWithRequest,
+    },
+    ref,
+  ) => {
     const webRef = useRef<WebView>(null);
 
     // Build URL: https://{domain}/pr1da/native/index.html?env=aos
@@ -38,6 +47,70 @@ export const DigitalAd = forwardRef<DigitalAdHandle, DigitalAdProps>(
       };
     }, [options]);
 
+    const zoomViewportScript = useMemo(() => {
+      if (!zoomEnabled) {
+        return "";
+      }
+
+      return `
+        (function() {
+          var viewportContent = 'width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=5, user-scalable=yes';
+
+          function applyZoomViewport() {
+            try {
+              var head = document.head || document.getElementsByTagName('head')[0];
+              if (!head) {
+                return;
+              }
+
+              var meta = document.querySelector('meta[name="viewport"]');
+              if (!meta) {
+                meta = document.createElement('meta');
+                meta.name = 'viewport';
+                head.appendChild(meta);
+              }
+
+              meta.setAttribute('content', viewportContent);
+            } catch (e) {
+              console.error('Error enabling zoom viewport:', e);
+            }
+          }
+
+          applyZoomViewport();
+
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', applyZoomViewport, false);
+          }
+
+          window.addEventListener('load', applyZoomViewport, false);
+
+          var attempts = 0;
+          var timer = window.setInterval(function() {
+            applyZoomViewport();
+            attempts += 1;
+            if (attempts >= 20) {
+              window.clearInterval(timer);
+            }
+          }, 250);
+
+          if (window.MutationObserver) {
+            var observer = new MutationObserver(function() {
+              applyZoomViewport();
+            });
+
+            observer.observe(document.documentElement, {
+              childList: true,
+              subtree: true,
+            });
+
+            window.setTimeout(function() {
+              observer.disconnect();
+            }, 5000);
+          }
+        })();
+      `;
+    }, [zoomEnabled]);
+
     // Inject JS to:
     //  1. Define window.pr1NativeWrapper.callBackHandler(payloadJsonString)
     //     which forwards messages to React Native via postMessage
@@ -47,6 +120,8 @@ export const DigitalAd = forwardRef<DigitalAdHandle, DigitalAdProps>(
 
       return `
         (function() {
+          ${zoomViewportScript}
+
           // Bridge from Web -> React Native
           window.pr1NativeWrapper = {
             callBackHandler: function(payloadJsonString) {
@@ -71,7 +146,18 @@ export const DigitalAd = forwardRef<DigitalAdHandle, DigitalAdProps>(
         })();
         true; // Required to avoid warnings in Android
       `;
-    }, [optionsForWeb]);
+    }, [optionsForWeb, zoomViewportScript]);
+
+    const injectedJavaScriptBeforeContentLoaded = useMemo(() => {
+      if (!zoomEnabled) {
+        return undefined;
+      }
+
+      return `
+        ${zoomViewportScript}
+        true;
+      `;
+    }, [zoomEnabled, zoomViewportScript]);
 
     // Handle messages from web → RN (called via pr1NativeWrapper.callBackHandler)
     const handleMessage = (event: WebViewMessageEvent) => {
@@ -121,6 +207,9 @@ export const DigitalAd = forwardRef<DigitalAdHandle, DigitalAdProps>(
           javaScriptEnabled
           domStorageEnabled
           onMessage={handleMessage}
+          injectedJavaScriptBeforeContentLoaded={
+            injectedJavaScriptBeforeContentLoaded
+          }
           injectedJavaScript={injectedJavaScript}
           startInLoadingState
           renderLoading={() => (
@@ -131,6 +220,9 @@ export const DigitalAd = forwardRef<DigitalAdHandle, DigitalAdProps>(
           // You can tighten these based on your needs
           originWhitelist={["*"]}
           mixedContentMode="never"
+          scalesPageToFit={zoomEnabled}
+          setBuiltInZoomControls={zoomEnabled}
+          setDisplayZoomControls={false}
           allowsInlineMediaPlayback
           mediaPlaybackRequiresUserAction={false}
           allowsFullscreenVideo={false}
