@@ -18,8 +18,10 @@ export const DigitalAd = forwardRef<DigitalAdHandle, DigitalAdProps>(
   ) => {
     const webRef = useRef<WebView>(null);
 
-    // Build URL: https://{domain}/pr1da/native/index.html?env=aos
+    // Build URL: https://{domain}/pr1da/native/index.html?env=aos&cb={timestamp}
+    // cb is a cache-bust key so every load fetches a fresh index.html
     const url = useMemo(() => {
+      const cacheBust = `&cb=${Date.now()}`;
       const domain = options.domain.replace(/^https?:\/\//, "");
       let query = options.deepLinkQuery ? `${options.deepLinkQuery}` : "";
       if (query) {
@@ -31,9 +33,9 @@ export const DigitalAd = forwardRef<DigitalAdHandle, DigitalAdProps>(
       }
       // console.log(
       //   "Constructed DigitalAd URL:",
-      //   `https://${domain}/pr1da/native/index.html?env=aos${query}`,
+      //   `https://${domain}/pr1da/native/index.html?env=aos${cacheBust}${query}`,
       // );
-      return `https://${domain}/pr1da/native/index.html?env=aos${query}`;
+      return `https://${domain}/pr1da/native/index.html?env=aos${cacheBust}${query}`;
     }, [options.domain, options.deepLinkQuery]);
 
     // Prepare config to send into initDigitalAd(...) on the web page
